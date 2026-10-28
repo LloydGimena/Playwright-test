@@ -13,3 +13,7 @@ node_modules/
 recorded.ts
 .env
 .env.*
+
+/results-capstone.json
+/test-results-capstone/
+/playwright-report-capstone/
