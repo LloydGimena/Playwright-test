@@ -1,11 +1,8 @@
+import { login } from './helpers';
 import { test, expect } from '@playwright/test';
 
 test('LOG-01: client can log in with valid credentials', async ({ page }) => {
-  await page.goto('/login');
-  await page.getByLabel('Email Address').fill('client@example.test');
-  await page.getByLabel('Password', { exact: true }).fill('password');
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page).not.toHaveURL(/\/login/, { timeout: 15000 });
+  await login(page);
 });
 
 test('LOG-02a: wrong password is rejected', async ({ page }) => {

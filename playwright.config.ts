@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -13,7 +14,7 @@ export default defineConfig({
     ['json', { outputFile: 'results.json' }],
   ],
   use: {    actionTimeout: 20000,
-    baseURL: 'http://localhost:8080',
+    baseURL: process.env.BOOKING_URL || 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

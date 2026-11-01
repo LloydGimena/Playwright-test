@@ -15,13 +15,21 @@ for (const item of ['My Profile', 'Payment History', 'Help / Report a Problem'])
 }
 
 test('NAV: profile menu opens "My Reviews" with a Write Review button', async ({ page }) => {
+    test.skip(!!process.env.BOOKING_URL, 'Live test account has no completed booking yet');
   await openMenuItem(page, 'My Reviews');
   await expect(page.getByRole('button', { name: 'Write Review' }).first()).toBeVisible();
 });
 
 test('NTF-01 (client part): bell panel shows a notification and its View Details opens the booking', async ({ page }) => {
+  test.skip(!!process.env.BOOKING_URL, 'Live test account has no completed booking / notifications yet');
   await page.getByRole('button', { name: /notification/i }).click();
   await expect(page.getByText('Booking Submitted').first()).toBeVisible();
   await page.getByRole('link', { name: 'View Details' }).first().click();
   await expect(page).toHaveURL(/\/booking\/\d+\/details/);
+});
+test('NAV (live, new account): My Reviews shows the empty state', async ({ page }) => {
+  test.skip(!process.env.BOOKING_URL, 'Only for the live site, where the test account is new');
+  await openMenuItem(page, 'My Reviews');
+  await expect(page.getByText('All caught up!')).toBeVisible();
+  await expect(page.getByText('You do not have any pending reviews to submit.')).toBeVisible();
 });
