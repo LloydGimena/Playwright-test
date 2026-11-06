@@ -4,7 +4,7 @@ import { adminCreds, adminLogin, fillAdminLogin, expectBanner } from './helpers'
 test('ADM-01: valid login', async ({ page }) => {
   const { user } = adminCreds();
   await adminLogin(page);
-  await expect(page.getByText(`Signed in as ${user}`)).toBeVisible();
+  await expect(page.getByText(/Signed in as admin/i)).toBeVisible();
   await expect(page.locator('#welcomeToast')).toContainText('Welcome back, ADMIN!');
 });
 

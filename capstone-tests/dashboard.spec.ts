@@ -36,7 +36,9 @@ test('DSH-13: the welcome toast shows and can be dismissed', async ({ page }) =>
   await expect(page.getByText(/Welcome back/)).toBeHidden();
 });
 
-test('SES: Log out returns to the admin login page', async ({ page }) => {
+test('ADM-08: after Log out, the dashboard no longer opens', async ({ page }) => {
   await page.getByRole('button', { name: 'Log out' }).or(page.getByRole('link', { name: 'Log out' })).first().click();
+  await expect(page).toHaveURL(/admin-login\.php/);
+  await page.goto('admin-dashboard.php');
   await expect(page).toHaveURL(/admin-login\.php/);
 });
