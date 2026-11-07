@@ -6,7 +6,7 @@ const USERNAME_MSG =
 
 // Uses ID 99990001 and username qa_reg01. Run the cleanup SQL before running again.
 test('REG-01 (message only): valid registration', async ({ page }) => {
-  await fillRegister(page, '99990001', 'qa_reg01', 'Passw0rd!');
+  await fillRegister(page, '99990001', 'qa_register', 'Passw0rd!');
   await expectBanner(page, 'Account created. You can now log in.');
 });
 
