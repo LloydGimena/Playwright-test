@@ -1,5 +1,17 @@
 import { expect, Page } from '@playwright/test';
 
+// Closes the "Welcome back, ADMIN" pop-up that appears a moment after sign-in
+export async function closeWelcome(page: Page) {
+  const popup = page.getByText(/welcome back/i).first();
+  try {
+    await popup.waitFor({ state: 'visible', timeout: 5000 });
+  } catch {
+    return; // it did not appear, so there is nothing to close
+  }
+  await page.getByRole('button', { name: /dismiss|close|×/i }).first().click();
+  await expect(popup).toBeHidden();
+}
+
 export function adminCreds() {
   const user = process.env.CAPSTONE_ADMIN_USER;
   const pass = process.env.CAPSTONE_ADMIN_PASS;
@@ -14,10 +26,11 @@ export async function fillAdminLogin(page: Page, user: string, pass: string) {
   await page.getByRole('button', { name: 'Sign In' }).click();
 }
 
-export async function adminLogin(page: Page) {
+export async function adminLogin(page: Page, opts: { keepWelcome?: boolean } = {}) {
   const { user, pass } = adminCreds();
   await fillAdminLogin(page, user, pass);
   await expect(page).toHaveURL(/admin-dashboard\.php/);
+  if (!opts.keepWelcome) await closeWelcome(page);
 }
 
 export async function fillRegister(page: Page, id: string, username: string, password: string) {
